@@ -15,10 +15,8 @@
 		const uri = id =>
 			`https://pokeapi.co/api/v2/pokemon/${id}/`;
 
-		const pokeArray123456 = [];
+		const pokemonCollection = [];
 
-		const createPokemonObject = json => Object.keys(json);
-		let pokemonName = '';
 		// jQuery $.get() method contains an async callback
 		// 	uses the XMLHTTPRequest object
 		const asyncCollectResult = result => {
@@ -28,21 +26,21 @@
 			// it is more than likely that the rest
 			// of the code in this script tag
 			// has already executed - synchronously.
-			let output = {}
-			output.pokemons = {}
+			const pokemonDescription = Object.keys(result).map(e => {
+				let keyAndValue = []
+				keyAndValue.push(e, result[e]);
+				return keyAndValue;
+			});
+			const description = Object.fromEntries(pokemonDescription);
+			console.log(Object(pokemonDescription));
 
-			output.pokemons.keys = Object.keys(result);
-			output.pokemons.values = Object.values(result);
 
-			const abilities = result.abilities;
 
-			console.log(result.name);
-			console.log(output);
-
-			pokemonName = result.name;
-
-			pokeArray123456.push(result.name);
-			return output;
+			let pokemon = {}
+			pokemon.name = result.name;
+			pokemon.description = description;
+			pokemonCollection.push(pokemon);
+			return;
 		}
 
 		// Creates a GET request to retrieve one pokemon form the PokeAPI
@@ -71,13 +69,7 @@
 		// The browser continues to receive contents after this script is done
 		// but this script can't access it's properties
 
-		// const requestObject = createGetPokemonRequest(1);
-
-		//console.log(requestObject);
-		//console.log(pokemonName);
-
-		console.log();
-		console.log(pokeArray123456);
+		console.log(pokemonCollection);
 
 		/**********************************
 		Original pyramid solution
