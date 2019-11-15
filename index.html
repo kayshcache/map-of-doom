@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript"></script>
+ </head>
+<body>
+    <button id="button">Get 6 Pokemon</button>
+    <script>
+        document.querySelector("#button").addEventListener("click", () => {
+
+		/**********************************
+                My functional solution           
+
+                ***********************************/
+		const uri = id =>
+			`https://pokeapi.co/api/v2/pokemon/${id}/`;
+
+		const pokeArray123456 = [];
+
+		const createPokemonObject = json => Object.keys(json);
+		let pokemonName = '';
+		// jQuery $.get() method contains an async callback
+		// 	uses the XMLHTTPRequest object
+		const asyncCollectResult = result => {
+
+			// Only this code here is ASYNCHRONOUS:
+			// After this function returns,
+			// it is more than likely that the rest
+			// of the code in this script tag
+			// has already executed - synchronously.
+			let output = {}
+			output.pokemons = {}
+
+			output.pokemons.keys = Object.keys(result);
+			output.pokemons.values = Object.values(result);
+
+			const abilities = result.abilities;
+
+			console.log(result.name);
+			console.log(output);
+
+			pokemonName = result.name;
+
+			pokeArray123456.push(result.name);
+			return output;
+		}
+
+		// Creates a GET request to retrieve one pokemon form the PokeAPI
+
+		// Params: takes ID of specified Pokemon
+		// Returns: the whole response object
+
+		// I suspect this object is special, once logged to the browser
+		// console, it can continue to be processed in the browser stack
+		// after the JavaScript has finished executing.
+
+		// Note: the second argument here is the only async part
+		// Catching this callback is the opportunity to process
+		// the response HTTP Response Object in the code here:
+
+		const createGetPokemonRequest = id =>
+			$.get(uri(id), asyncCollectResult, 'json');
+
+		for (let i = 1; i <= 6; i++) {
+			createGetPokemonRequest(i);
+		}
+
+		// The Request Object received by jQuery is
+		// somehow special, it can log the whole object to the browser console:
+		
+		// The browser continues to receive contents after this script is done
+		// but this script can't access it's properties
+
+		// const requestObject = createGetPokemonRequest(1);
+
+		//console.log(requestObject);
+		//console.log(pokemonName);
+
+		console.log();
+		console.log(pokeArray123456);
+
+		/**********************************
+		Original pyramid solution
+
+		UGLY UGLY IGNORE IGNORE
+
+		***********************************/
+        	
+		$.get(uri(1), (poke1) => {
+			$.get(uri(2), (poke2) => {
+				$.get(uri(3), (poke3) => {
+					$.get(uri(4), (poke4) => {
+						$.get(uri(5), (poke5) => {
+
+							//const pokeArray = [poke1, poke2, poke3, poke4, poke5];
+							//console.log(pokeArray[4].name);
+						});
+					});
+				});
+			});
+		});
+	});
+    </script>
+</body>
+</html>
