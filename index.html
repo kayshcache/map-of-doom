@@ -26,15 +26,8 @@
 			// it is more than likely that the rest
 			// of the code in this script tag
 			// has already executed - synchronously.
-			const pokemonDescription = Object.keys(result).map(e => {
-				let keyAndValue = []
-				keyAndValue.push(e, result[e]);
-				return keyAndValue;
-			});
+			const pokemonDescription = Object.keys(result).map(e => [e, result[e]]);
 			const description = Object.fromEntries(pokemonDescription);
-			console.log(Object(pokemonDescription));
-
-
 
 			let pokemon = {}
 			pokemon.name = result.name;
